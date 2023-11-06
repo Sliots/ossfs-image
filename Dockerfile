@@ -22,3 +22,4 @@ ENV MNT_POINT /data/ossfs
 ENV ACCESS_KEY changeme
 ENV ACCESS_SECRET changeme
 CMD ["/mount.sh"]
+RUN apk --update add mysql-client tzdata
