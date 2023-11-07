@@ -1,4 +1,4 @@
-FROM alpine:3.14 AS builder
+FROM alpine:latest AS builder
 ENV OSSFS_VERSION v1.91.1
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 RUN apk --update add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev
@@ -9,9 +9,9 @@ RUN cd ossfs-1.91.1 \
   && make \
   && make install
 
-FROM alpine:3.14
+FROM alpine:latest
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
-RUN apk --update add fuse curl libxml2 openssl libstdc++ libgcc && rm -rf /var/cache/apk/* 
+RUN apk --update add fuse curl libxml2 openssl libstdc++ libgcc mysql-client tzdata && rm -rf /var/cache/apk/* 
 ENV OSSFS_VERSION v1.91.1
 COPY --from=builder /usr/bin/ossfs /usr/bin/ossfs
 COPY mount.sh .
@@ -21,5 +21,4 @@ ENV OSSFS_OPTIONS -o noxattr
 ENV MNT_POINT /data/ossfs
 ENV ACCESS_KEY changeme
 ENV ACCESS_SECRET changeme
-CMD ["/mount.sh"]
-RUN apk --update add mysql-client tzdata
+CMD ["/bin/ash", "-c", "/mount.sh && /run.sh"]
