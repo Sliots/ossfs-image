@@ -21,4 +21,4 @@ ENV OSSFS_OPTIONS -o noxattr
 ENV MNT_POINT /data/ossfs
 ENV ACCESS_KEY changeme
 ENV ACCESS_SECRET changeme
-CMD ["/bin/ash", "-c", "/mount.sh && /run.sh"]
+CMD ["/bin/sh", "-c", "/mount.sh && sleep 10 && /data/ossfs/run.sh"]
