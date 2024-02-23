@@ -1,9 +1,9 @@
 FROM alpine:latest AS builder
-ENV OSSFS_VERSION v1.91.1
+ENV OSSFS_VERSION v1.80.7
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 RUN apk --update add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev build-base make libcurl openssl libstdc++ libgcc pkgconfig
 RUN wget -qO- https://github.com/aliyun/ossfs/archive/$OSSFS_VERSION.tar.gz |tar xz
-RUN cd ossfs-1.91.1 \
+RUN cd ossfs-1.80.7 \
   && ./autogen.sh \
   && ./configure --prefix=/usr \
   && make \
@@ -12,7 +12,7 @@ RUN cd ossfs-1.91.1 \
 FROM alpine:latest
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 RUN apk --update add fuse curl libxml2 openssl libstdc++ libgcc mysql-client tzdata && rm -rf /var/cache/apk/* 
-ENV OSSFS_VERSION v1.91.1
+ENV OSSFS_VERSION v1.80.7
 COPY --from=builder /usr/bin/ossfs /usr/bin/ossfs
 COPY mount.sh .
 ENV OSS_URL http://oss-cn-beijing-internal.aliyuncs.com
