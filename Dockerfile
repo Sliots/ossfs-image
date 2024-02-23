@@ -1,7 +1,7 @@
 FROM alpine:latest AS builder
 ENV OSSFS_VERSION v1.91.1
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
-RUN apk --update add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev
+RUN apk --update add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev build-base make libcurl openssl libstdc++ libgcc pkgconfig
 RUN wget -qO- https://github.com/aliyun/ossfs/archive/$OSSFS_VERSION.tar.gz |tar xz
 RUN cd ossfs-1.91.1 \
   && ./autogen.sh \
